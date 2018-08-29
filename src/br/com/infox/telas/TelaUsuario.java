@@ -50,7 +50,7 @@ public class TelaUsuario extends JInternalFrame {
 	private JTextField txtUsuNome;
 	private JTextField txtUsuFone;
 	private JPasswordField txtUsuSenha;
-	private JComboBox cboUsuPerfil;
+	private JComboBox<?> cboUsuPerfil;
 	private JTextField txtUsulogin;
 	private JLabel lblLogin;
 	private JButton btnUsuCreate;
@@ -86,14 +86,13 @@ public class TelaUsuario extends JInternalFrame {
 	public TelaUsuario() {
 
 		initialize();
-		conexao = ModuloConexao.conector();
 
 	}
 
 	// metodo para consultar usuarios no Banco de Dados
 	private void consultar() {
 		String sql = "select * from tbusuarios where iduser=?";
-
+		conexao = ModuloConexao.conector();
 		try {
 
 			pst = conexao.prepareStatement(sql);
@@ -109,24 +108,30 @@ public class TelaUsuario extends JInternalFrame {
 				cboUsuPerfil.setSelectedItem(rs.getString(6));
 
 			} else {
-				JOptionPane.showMessageDialog(null, "ID n�o encontrado");
+				JOptionPane.showMessageDialog(null, "ID não encontrado");
+				txtUsuId.setText(null);
 				txtUsuNome.setText(null);
 				txtUsuFone.setText(null);
 				txtUsulogin.setText(null);
 				txtUsuSenha.setText(null);
 				// linha abaixo seleciona opcao do comboBox conforme escrito no Banco
-				cboUsuPerfil.setSelectedItem(null);
+				cboUsuPerfil.setSelectedItem(1);
 			}
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e);
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception e2) {
+			}
 		}
 	}
 
 	// M�todo para adicionar usu�rios ao banco
 	private void adicionar() {
 		String sql = "INSERT INTO tbusuarios(iduser,usuario,fone,login,senha,perfil) VALUES(?,?,?,?,?,?)";
-
+		conexao = ModuloConexao.conector();
 		try {
 			pst = conexao.prepareStatement(sql);
 
@@ -140,29 +145,124 @@ public class TelaUsuario extends JInternalFrame {
 			pst.setString(6, cboUsuPerfil.getSelectedItem().toString());
 
 			// validacao campos obrig�torios
-			if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsulogin.getText().isEmpty()) || (senha.isEmpty())) {
+			if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsulogin.getText().isEmpty())
+					|| (senha.isEmpty())) {
 				JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
 			} else {
 
-				// linha abaixo atualiza a tabela usu�rios com os dados do formul�rio
-				// estrutura abaixo � usada para confirmar a inser��o dos dados ao usu�rio
+				// linha abaixo atualiza a tabela usuarios com os dados do formulario
+				// estrutura abaixo é usada para confirmar a insercao dos dados ao usuario
 				int adicionado = pst.executeUpdate();
 
 				if (adicionado > 0) {
 					JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso");
 
-					// ap�s adicionar limpar os campos
+					// apos adicionar limpar os campos
+					txtUsuId.setText(null);
 					txtUsuNome.setText(null);
 					txtUsuFone.setText(null);
 					txtUsulogin.setText(null);
 					txtUsuSenha.setText(null);
 					// linha abaixo seleciona opcao do comboBox conforme escrito no Banco
-					cboUsuPerfil.setSelectedItem(null);
+					cboUsuPerfil.setSelectedItem(1);
 				}
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e);
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception e2) {
+			}
 		}
+	}
+
+	// metodo update para atualizar dados do usuario
+	private void alterar() {
+		String sql = "update tbusuarios set usuario=?,fone=?,login=?,senha=?,perfil=? where iduser=?";
+		conexao = ModuloConexao.conector();
+
+		try {
+			pst = conexao.prepareStatement(sql);
+			pst.setString(1, txtUsuNome.getText());
+			pst.setString(2, txtUsuFone.getText());
+			pst.setString(3, txtUsulogin.getText());
+			String senha = new String(txtUsuSenha.getPassword());
+			pst.setString(4, senha);
+			pst.setString(5, cboUsuPerfil.getSelectedItem().toString());
+			pst.setString(6, txtUsuId.getText());
+
+			// validacao campos obrigatorios
+			if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsulogin.getText().isEmpty())
+					|| (senha.isEmpty())) {
+				JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+			} else {
+
+				// linha abaixo atualiza a tabela usuarios com os dados do formulario
+				// estrutura abaixo é usada para confirmar a alteracao dos dados do usuario na
+				// tabela
+				int adicionado = pst.executeUpdate();
+
+				if (adicionado > 0) {
+					JOptionPane.showMessageDialog(null, "Dados do usuário alterados com sucesso");
+
+					// aposs adicionar limpar os campos
+					txtUsuId.setText(null);
+					txtUsuNome.setText(null);
+					txtUsuFone.setText(null);
+					txtUsulogin.setText(null);
+					txtUsuSenha.setText(null);
+					// linha abaixo seleciona opcao do comboBox conforme escrito no Banco
+					cboUsuPerfil.setSelectedItem(1);
+				}
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e);
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception e2) {
+
+			}
+		}
+
+	}
+
+	// metodo para deletar usuario da tbusuarios do BD
+	private void remover() {
+		// Estrutura de confirmacao para remover ou nao
+		int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este usuário", "Atenção",
+				JOptionPane.YES_NO_OPTION);
+		if (confirma == JOptionPane.YES_OPTION) {
+			String sql = "DELETE FROM tbusuarios where iduser=?";
+			conexao = ModuloConexao.conector();
+			try {
+				pst = conexao.prepareStatement(sql);
+				pst.setString(1, txtUsuId.getText());
+				int deletar = pst.executeUpdate();
+				
+				if(deletar > 0) {
+					JOptionPane.showMessageDialog(null, "Usuário apagado com sucesso");
+					//apos deletar apagar os campos
+					txtUsuId.setText(null);
+					txtUsuNome.setText(null);
+					txtUsuFone.setText(null);
+					txtUsulogin.setText(null);
+					txtUsuSenha.setText(null);
+					// linha abaixo seleciona opcao do comboBox conforme escrito no Banco
+					cboUsuPerfil.setSelectedItem(1);
+				}
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e);
+			} finally {
+				try {
+					conexao.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+
 	}
 
 	private void initialize() {
@@ -318,7 +418,7 @@ public class TelaUsuario extends JInternalFrame {
 		return txtUsuSenha;
 	}
 
-	private JComboBox getCboUsuPerfil() {
+	private JComboBox<?> getCboUsuPerfil() {
 		if (cboUsuPerfil == null) {
 			cboUsuPerfil = new JComboBox();
 			cboUsuPerfil.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -387,6 +487,12 @@ public class TelaUsuario extends JInternalFrame {
 	private JButton getBtnUsuUpdate() {
 		if (btnUsuUpdate == null) {
 			btnUsuUpdate = new JButton("");
+			btnUsuUpdate.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					// chamando metodo alterar
+					alterar();
+				}
+			});
 			btnUsuUpdate.setToolTipText("Alterar");
 			Image update = new ImageIcon(this.getClass().getResource("/br/com/infox/icones/edit.png")).getImage();
 			btnUsuUpdate.setIcon(new ImageIcon(update));
@@ -400,6 +506,11 @@ public class TelaUsuario extends JInternalFrame {
 	private JButton getBtnUsuDelete() {
 		if (btnUsuDelete == null) {
 			btnUsuDelete = new JButton("");
+			btnUsuDelete.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					remover();
+				}
+			});
 			btnUsuDelete.setToolTipText("Remover");
 			Image delete = new ImageIcon(this.getClass().getResource("/br/com/infox/icones/delete.png")).getImage();
 			btnUsuDelete.setIcon(new ImageIcon(delete));

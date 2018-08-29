@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -28,10 +29,10 @@ import javax.swing.border.MatteBorder;
 import br.com.infox.dal.ModuloConexao;
 
 public class TelaLogin extends JFrame {
-	//Variavel de conexao do DAL
+	// Variavel de conexao do DAL
 	Connection conexao = null;
-	//variaveis especiais para conexao ao banco
-	//Prepared Statement e ResultSet s�o frameworks do pacote java.sql
+	// variaveis especiais para conexao ao banco
+	// Prepared Statement e ResultSet s�o frameworks do pacote java.sql
 	// e servem para preparar e executar as instru��es SQL
 	PreparedStatement pst = null;
 	ResultSet rs = null;
@@ -122,7 +123,7 @@ public class TelaLogin extends JFrame {
 
 		conexao = ModuloConexao.conector();
 		// a linha abaixo serve de apoio ao status da conexao com o banco
-		//System.out.println(conexao);
+		// System.out.println(conexao);
 		if (conexao != null) {
 			lblStatus.setForeground(Color.yellow);
 			lblStatus.setText("CONECTADO");
@@ -203,8 +204,8 @@ public class TelaLogin extends JFrame {
 			rs = pst.executeQuery();
 			// se existir usuario correspondendo no banco, loga e abre pagina principal
 			if (rs.next()) {
-				// linha abaixo recebe o conteudo do campo perfil da tabela tbusuarios; cada
-				// campo tem um numero, sendo o de perfil o sexto campo(6)
+//				 linha abaixo recebe o conteudo do campo perfil da tabela tbusuarios; cada
+//				 campo tem um numero, sendo o de perfil o sexto campo(6)
 				String perfil = rs.getString(6);
 
 				TelaPrincipal principal = new TelaPrincipal();
@@ -212,7 +213,7 @@ public class TelaLogin extends JFrame {
 				principal.setVisible(true);
 				principal.setExtendedState(MAXIMIZED_BOTH);
 				this.dispose();
-				
+
 				// se usuario for admin - libera acesso aos campos Relatorios e cadastro de
 				// usuarios
 				if (perfil.equals("admin")) {
@@ -220,18 +221,26 @@ public class TelaLogin extends JFrame {
 					TelaPrincipal.menCadUsu.setEnabled(true);
 					TelaPrincipal.lblUsuario.setForeground(Color.RED);
 				}
-				
-				//Verifica qual usuario está logado e altera lblUsuario da tela principal para o nome logado				
+
+				// Verifica qual usuario está logado e altera lblUsuario da tela principal para
+				// o nome logado
 				TelaPrincipal.lblUsuario.setText(rs.getString(2));
-				
-				//fecha conexao com o banco
-				conexao.close();
+
 			} else {
 				JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválido");
 			}
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e);
+
+		} finally {// fecha conexao com o banco
+			try {
+				conexao.close();
+			} catch (Exception e2) {
+			}
+		}
+		{
+
 		}
 	}
 }
