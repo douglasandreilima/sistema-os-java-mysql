@@ -92,19 +92,19 @@ public class TelaSobre extends JFrame {
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("Sistema para controle de Ordem de Servi\u00E7os");
+			lblNewLabel = new JLabel("Sistema para controle de Ordem de Serviços");
 		}
 		return lblNewLabel;
 	}
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("Desenvolvido por Douglas de Lima ( Curso de Jos\u00E9 de Assis) ");
+			lblNewLabel_1 = new JLabel("Desenvolvido por Douglas de Lima ( Curso de José de Assis) ");
 		}
 		return lblNewLabel_1;
 	}
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("Sob a licen\u00E7a GPL");
+			lblNewLabel_2 = new JLabel("Sob a licença GPL");
 		}
 		return lblNewLabel_2;
 	}

@@ -31,8 +31,8 @@ public class TelaLogin extends JFrame {
 	//Variavel de conexao do DAL
 	Connection conexao = null;
 	//variaveis especiais para conexao ao banco
-	//Prepared Statement e ResultSet são frameworks do pacote java.sql
-	// e servem para preparar e executar as instruções SQL
+	//Prepared Statement e ResultSet sï¿½o frameworks do pacote java.sql
+	// e servem para preparar e executar as instruï¿½ï¿½es SQL
 	PreparedStatement pst = null;
 	ResultSet rs = null;
 
@@ -125,18 +125,18 @@ public class TelaLogin extends JFrame {
 		//System.out.println(conexao);
 		if (conexao != null) {
 			lblStatus.setForeground(Color.yellow);
-			lblStatus.setText("Conectado");
+			lblStatus.setText("CONECTADO");
 
 		} else {
 			lblStatus.setForeground(Color.RED);
-			lblStatus.setText("Não Conectado");
+			lblStatus.setText("NÃƒO CONECTADO");
 		}
 
 	}
 
 	private JLabel getLblUsurio() {
 		if (lblUsurio == null) {
-			lblUsurio = new JLabel("Usu\u00E1rio");
+			lblUsurio = new JLabel("UsuÃ¡rio");
 			lblUsurio.setFont(new Font("Dialog", Font.BOLD, 13));
 		}
 		return lblUsurio;
@@ -193,8 +193,8 @@ public class TelaLogin extends JFrame {
 	public void logar() {
 		String sql = "select * from tbusuarios where login=? and senha =?";
 		try {
-			// as linhas abaixo preparam a consulta ao banco em função do que foi digitado
-			// nas caixas de testo. o ? é substituido pelo conteudo das variaveis
+			// as linhas abaixo preparam a consulta ao banco em funï¿½ï¿½o do que foi digitado
+			// nas caixas de testo. o ? ï¿½ substituido pelo conteudo das variaveis
 			pst = conexao.prepareStatement(sql);
 			pst.setString(1, txtUsuario.getText());
 			String senha = new String(txtSenha.getPassword());
@@ -221,13 +221,13 @@ public class TelaLogin extends JFrame {
 					TelaPrincipal.lblUsuario.setForeground(Color.RED);
 				}
 				
-				//Verifica qual usuario está logado e altera lblUsuario da tela principal para o nome logado				
+				//Verifica qual usuario estÃ¡ logado e altera lblUsuario da tela principal para o nome logado				
 				TelaPrincipal.lblUsuario.setText(rs.getString(2));
 				
 				//fecha conexao com o banco
 				conexao.close();
 			} else {
-				JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválido");
+				JOptionPane.showMessageDialog(null, "UsuÃ¡rio e/ou senha invÃ¡lido");
 			}
 
 		} catch (Exception e) {

@@ -129,7 +129,7 @@ public class TelaPrincipal extends JFrame {
 
 	private JMenu getMenRel() {
 		if (menRel == null) {
-			menRel = new JMenu("Relat\u00F3rio");
+			menRel = new JMenu("Relatório");
 			menRel.setEnabled(false);
 			menRel.add(getMenRelSer());
 		}
@@ -146,7 +146,7 @@ public class TelaPrincipal extends JFrame {
 
 	private JMenu getMenOpc() {
 		if (menOpc == null) {
-			menOpc = new JMenu("Op\u00E7\u00F5es");
+			menOpc = new JMenu("Opções");
 			menOpc.add(getMenOpcSai());
 		}
 		return menOpc;
@@ -171,7 +171,7 @@ public class TelaPrincipal extends JFrame {
 
 	private JMenuItem getMenCadUsu() {
 		if (menCadUsu == null) {
-			menCadUsu = new JMenuItem("Usu\u00E1rios");
+			menCadUsu = new JMenuItem("Usuários");
 			menCadUsu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//Linhas abaixo abre Form tela usuario dentro de dekstop Pane
@@ -189,7 +189,7 @@ public class TelaPrincipal extends JFrame {
 
 	private JMenuItem getMenRelSer() {
 		if (menRelSer == null) {
-			menRelSer = new JMenuItem("Servi\u00E7os");
+			menRelSer = new JMenuItem("Serviços");
 			menRelSer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.ALT_MASK));
 		}
 		return menRelSer;
@@ -220,7 +220,7 @@ public class TelaPrincipal extends JFrame {
 			menOpcSai.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//exibe uma caixa de dialogo
-					int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair", "Aten��o", JOptionPane.YES_NO_OPTION);
+					int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair", "Atenção", JOptionPane.YES_NO_OPTION);
 					if(sair == JOptionPane.YES_OPTION) {
 						System.exit(0); 
 					}
@@ -260,7 +260,7 @@ public class TelaPrincipal extends JFrame {
 
 	private JLabel getLblUsuario() {
 		if (lblUsuario == null) {
-			lblUsuario = new JLabel("Usu\u00E1rio");
+			lblUsuario = new JLabel("Usuário");
 			lblUsuario.setForeground(Color.LIGHT_GRAY);
 			lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		}

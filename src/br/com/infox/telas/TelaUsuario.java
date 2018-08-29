@@ -35,8 +35,8 @@ public class TelaUsuario extends JInternalFrame {
 	// Variavel de conexao do DAL
 	Connection conexao = null;
 	// variaveis especiais para conexao ao banco
-	// Prepared Statement e ResultSet são frameworks do pacote java.sql
-	// e servem para preparar e executar as instruções SQL
+	// Prepared Statement e ResultSet sï¿½o frameworks do pacote java.sql
+	// e servem para preparar e executar as instruï¿½ï¿½es SQL
 	PreparedStatement pst = null;
 	ResultSet rs = null;
 
@@ -109,7 +109,7 @@ public class TelaUsuario extends JInternalFrame {
 				cboUsuPerfil.setSelectedItem(rs.getString(6));
 
 			} else {
-				JOptionPane.showMessageDialog(null, "ID não encontrado");
+				JOptionPane.showMessageDialog(null, "ID nï¿½o encontrado");
 				txtUsuNome.setText(null);
 				txtUsuFone.setText(null);
 				txtUsulogin.setText(null);
@@ -123,7 +123,7 @@ public class TelaUsuario extends JInternalFrame {
 		}
 	}
 
-	// Método para adicionar usuários ao banco
+	// Mï¿½todo para adicionar usuï¿½rios ao banco
 	private void adicionar() {
 		String sql = "INSERT INTO tbusuarios(iduser,usuario,fone,login,senha,perfil) VALUES(?,?,?,?,?,?)";
 
@@ -139,19 +139,19 @@ public class TelaUsuario extends JInternalFrame {
 			pst.setString(5, senha);
 			pst.setString(6, cboUsuPerfil.getSelectedItem().toString());
 
-			// validacao campos obrigátorios
+			// validacao campos obrigï¿½torios
 			if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsulogin.getText().isEmpty()) || (senha.isEmpty())) {
-				JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigátorios");
+				JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatÃ³rios");
 			} else {
 
-				// linha abaixo atualiza a tabela usuários com os dados do formulário
-				// estrutura abaixo é usada para confirmar a inserção dos dados ao usuário
+				// linha abaixo atualiza a tabela usuï¿½rios com os dados do formulï¿½rio
+				// estrutura abaixo ï¿½ usada para confirmar a inserï¿½ï¿½o dos dados ao usuï¿½rio
 				int adicionado = pst.executeUpdate();
 
 				if (adicionado > 0) {
-					JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso");
+					JOptionPane.showMessageDialog(null, "UsuÃ¡rio cadastrado com sucesso");
 
-					// após adicionar limpar os campos
+					// apï¿½s adicionar limpar os campos
 					txtUsuNome.setText(null);
 					txtUsuFone.setText(null);
 					txtUsulogin.setText(null);
@@ -412,7 +412,7 @@ public class TelaUsuario extends JInternalFrame {
 
 	private JLabel getLblCamposObrigtorios() {
 		if (lblCamposObrigtorios == null) {
-			lblCamposObrigtorios = new JLabel("* Campos obrig\u00E1torios");
+			lblCamposObrigtorios = new JLabel("* Campos obrigatÃ³rios");
 			lblCamposObrigtorios.setForeground(Color.RED);
 			lblCamposObrigtorios.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
