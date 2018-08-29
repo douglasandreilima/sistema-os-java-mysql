@@ -64,7 +64,7 @@ public class TelaUsuario extends JInternalFrame {
 	 */
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -270,7 +270,7 @@ public class TelaUsuario extends JInternalFrame {
 		setIconifiable(true);
 		setClosable(true);
 		setTitle("Usu\u00E1rios");
-		setBounds(100, 100, 680, 444);
+		setBounds(100, 100, 700, 500);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup().addGap(45)

@@ -155,6 +155,14 @@ public class TelaPrincipal extends JFrame {
 	private JMenuItem getMenCadCli() {
 		if (menCadCli == null) {
 			menCadCli = new JMenuItem("Cliente");
+			menCadCli.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//chamando JinternalFrame TelaCliente	
+					TelaCliente cliente = new TelaCliente();
+					cliente.setVisible(true);
+					desktop.add(cliente);
+				}
+			});
 			menCadCli.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
 			menCadCli.setSelected(true);
 		}
