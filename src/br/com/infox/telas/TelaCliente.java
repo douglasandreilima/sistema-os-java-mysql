@@ -34,7 +34,7 @@ public class TelaCliente extends JInternalFrame {
 		setClosable(true);
 		setIconifiable(true);
 		setTitle("Clientes");
-		setBounds(100, 100, 640, 444);
+		setBounds(100, 100, 695, 484);
 	}
 
 }
