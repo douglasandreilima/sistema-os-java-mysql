@@ -269,7 +269,7 @@ public class TelaUsuario extends JInternalFrame {
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		setIconifiable(true);
 		setClosable(true);
-		setTitle("Usu\u00E1rios");
+		setTitle("Usuários");
 		setBounds(100, 100, 700, 500);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)

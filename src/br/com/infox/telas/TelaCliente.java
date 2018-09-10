@@ -1,6 +1,7 @@
 package br.com.infox.telas;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -33,6 +34,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
 
 public class TelaCliente extends JInternalFrame {
 	/**
@@ -60,6 +62,7 @@ public class TelaCliente extends JInternalFrame {
 	ResultSet rs = null;
 	private JLabel lblIdCliente;
 	private JTextField txtCliID;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -97,87 +100,92 @@ public class TelaCliente extends JInternalFrame {
 		setTitle("Clientes");
 		setBounds(100, 100, 744, 530);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(252)
-				.addComponent(getBtnCliCreate(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE).addGap(18)
-				.addComponent(getBtnCliUpdate(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE).addGap(18)
-				.addComponent(getBtnCliDelete(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(294, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(60).addGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(252)
+					.addComponent(getBtnCliCreate(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(getBtnCliUpdate(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(getBtnCliDelete(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(294, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(60)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(getTblClientes(), GroupLayout.PREFERRED_SIZE, 631,
-										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap())
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-								.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(getLblEndereo()).addComponent(getLblnome())
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-												.addComponent(getLblEmail())
-												.addComponent(getLbltelefone(), GroupLayout.DEFAULT_SIZE,
-														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(getLabel_1_1(), GroupLayout.DEFAULT_SIZE,
-														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-								.addGap(23)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(getTxtCliNome(), GroupLayout.PREFERRED_SIZE, 475,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(getTxtCliEndereco(), 578, 578, 578)
-										.addComponent(getTxtCliID(), GroupLayout.PREFERRED_SIZE, 76,
-												GroupLayout.PREFERRED_SIZE)
-										.addGroup(groupLayout.createSequentialGroup().addGap(5)
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(getTxtCliFone(), GroupLayout.PREFERRED_SIZE, 183,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(getTxtCliEmail(), GroupLayout.PREFERRED_SIZE, 408,
-																GroupLayout.PREFERRED_SIZE))))
-								.addContainerGap())
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(getLblEndereo())
+								.addComponent(getLblnome())
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(getLblEmail())
+									.addComponent(getLbltelefone(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(getLabel_1_1(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addGap(23)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(getTxtCliNome(), GroupLayout.PREFERRED_SIZE, 475, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getTxtCliEndereco(), 578, 578, 578)
+								.addComponent(getTxtCliID(), GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-										.addComponent(getTxtCliPesquisar(), GroupLayout.PREFERRED_SIZE, 346,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(getLabel_1())
-										.addGap(87).addComponent(getLblcamposObrigatrios()).addGap(30))))));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout.createSequentialGroup().addGap(20).addComponent(getLblcamposObrigatrios()))
-						.addGroup(groupLayout.createSequentialGroup().addGap(16)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(getLabel_1())
-										.addComponent(getTxtCliPesquisar(), GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-				.addGap(18).addComponent(getTblClientes(), GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(getLabel_1_1()).addComponent(
-						getTxtCliID(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-						GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(getTxtCliNome(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
+									.addGap(5)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(getTxtCliFone(), GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
+										.addComponent(getTxtCliEmail(), GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE))))
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+							.addComponent(getTxtCliPesquisar(), GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(getLabel_1())
+							.addGap(87)
+							.addComponent(getLblcamposObrigatrios())
+							.addGap(30))))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(45)
+					.addComponent(getScrollPane(), GroupLayout.PREFERRED_SIZE, 624, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(63, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(20)
+							.addComponent(getLblcamposObrigatrios()))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(16)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(getLabel_1())
+								.addComponent(getTxtCliPesquisar(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(18)
+					.addComponent(getScrollPane(), GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(getLabel_1_1())
+						.addComponent(getTxtCliID(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(getTxtCliNome(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(getLblnome()))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(getTxtCliEndereco(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(getTxtCliEndereco(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(getLblEndereo()))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(getLbltelefone())
-						.addComponent(getTxtCliFone(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(getTxtCliEmail(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(getLbltelefone())
+						.addComponent(getTxtCliFone(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(getTxtCliEmail(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(getLblEmail()))
-				.addGap(28)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGap(28)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(getBtnCliCreate(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 						.addComponent(getBtnCliUpdate(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 						.addComponent(getBtnCliDelete(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
-				.addContainerGap()));
+					.addContainerGap())
+		);
 		getContentPane().setLayout(groupLayout);
 	}
 
@@ -434,6 +442,7 @@ public class TelaCliente extends JInternalFrame {
 			btnCliCreate.setIcon(new ImageIcon(create));
 			btnCliCreate.setMinimumSize(new Dimension(50, 50));
 			btnCliCreate.setMaximumSize(new Dimension(50, 50));
+			btnCliCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 		return btnCliCreate;
 	}
@@ -451,6 +460,7 @@ public class TelaCliente extends JInternalFrame {
 			btnCliUpdate.setIcon(new ImageIcon(update));
 			btnCliUpdate.setMinimumSize(new Dimension(50, 50));
 			btnCliUpdate.setMaximumSize(new Dimension(50, 50));
+			btnCliUpdate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 		return btnCliUpdate;
 	}
@@ -470,6 +480,7 @@ public class TelaCliente extends JInternalFrame {
 			btnCliDelete.setIcon(new ImageIcon(delete));
 			btnCliDelete.setMinimumSize(new Dimension(50, 50));
 			btnCliDelete.setMaximumSize(new Dimension(50, 50));
+			btnCliDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 		return btnCliDelete;
 	}
@@ -509,7 +520,13 @@ public class TelaCliente extends JInternalFrame {
 					setarCampos();
 				}
 			});
-			tblClientes.setModel(new DefaultTableModel(new Object[][] {}, new String[] {}));
+			tblClientes.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"ID", "Nome", "Endereço", "Fone", "Email"
+				}
+			));
 		}
 		return tblClientes;
 	}
@@ -529,5 +546,12 @@ public class TelaCliente extends JInternalFrame {
 			txtCliID.setColumns(10);
 		}
 		return txtCliID;
+	}
+	private JScrollPane getScrollPane() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setViewportView(getTblClientes());
+		}
+		return scrollPane;
 	}
 }

@@ -172,6 +172,16 @@ public class TelaPrincipal extends JFrame {
 	private JMenuItem getMenCadOs() {
 		if (menCadOs == null) {
 			menCadOs = new JMenuItem("OS");
+			menCadOs.addActionListener(new ActionListener() {
+				//chamando telaOs
+				public void actionPerformed(ActionEvent e) {
+					
+					TelaOs os = new TelaOs();
+					os.setVisible(true);
+					desktop.add(os);
+					
+				}
+			});
 			menCadOs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.ALT_MASK));
 		}
 		return menCadOs;
