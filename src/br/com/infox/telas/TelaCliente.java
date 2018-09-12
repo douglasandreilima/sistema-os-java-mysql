@@ -241,7 +241,7 @@ public class TelaCliente extends JInternalFrame {
 
 	// metodo pesquisar clientes pelo nome com filtro
 	private void pesquisarCliente() {
-		String sql = "select * from tbclientes where nomecli like ?";
+		String sql = "select idcli as ID,nomecli as Nome,endcli as Endereço,fonecli as Telefone,emailcli as Email from tbclientes where nomecli like ?";
 		conexao = ModuloConexao.conector();
 
 		try {
@@ -541,7 +541,6 @@ public class TelaCliente extends JInternalFrame {
 	private JTextField getTxtCliID() {
 		if (txtCliID == null) {
 			txtCliID = new JTextField();
-			txtCliID.setEnabled(false);
 			txtCliID.setEditable(false);
 			txtCliID.setColumns(10);
 		}
