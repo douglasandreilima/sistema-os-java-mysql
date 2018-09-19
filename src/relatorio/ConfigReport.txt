@@ -1,0 +1,4 @@
+Criar pasta Reports em C: e copiar arquivos de relatorios .jasper para essa pasta 
+para que os relatorios funcionem corretamente.
+
+C:\Reports

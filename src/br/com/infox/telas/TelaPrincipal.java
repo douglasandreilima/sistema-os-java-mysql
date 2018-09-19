@@ -1,12 +1,19 @@
 package br.com.infox.telas;
 
 import java.awt.EventQueue;
+import java.sql.*;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.com.infox.dal.ModuloConexao;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import java.awt.Component;
@@ -49,6 +56,9 @@ public class TelaPrincipal extends JFrame {
 	private JDesktopPane desktop;
 	public static JLabel lblUsuario;
 	private JLabel lblData;
+	private JMenuItem menRelCli;
+	
+	private Connection conexao = null;
 
 	/**
 	 * Launch the application.
@@ -131,6 +141,7 @@ public class TelaPrincipal extends JFrame {
 		if (menRel == null) {
 			menRel = new JMenu("Relatório");
 			menRel.setEnabled(false);
+			menRel.add(getMenRelCli());
 			menRel.add(getMenRelSer());
 		}
 		return menRel;
@@ -208,6 +219,31 @@ public class TelaPrincipal extends JFrame {
 	private JMenuItem getMenRelSer() {
 		if (menRelSer == null) {
 			menRelSer = new JMenuItem("Serviços");
+			menRelSer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int confirma = JOptionPane.showConfirmDialog(null,"Confirma a impressão desse relatorio","Atenção",JOptionPane.YES_NO_OPTION);
+					if(confirma == JOptionPane.YES_OPTION) {
+						//imprimindo relatorio com o framework JasperReport		
+						conexao = ModuloConexao.conector();
+						try {						
+							//Usando a classe JasperPrint para preparar impressao de um relatorio
+							JasperPrint print = JasperFillManager.fillReport("C:/Reports/servicos.jasper", null,conexao);
+							//aqui exibe relatorio atraves da classe JasperViewer
+							JasperViewer.viewReport(print,false);
+							
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(null, e1);
+						}finally {
+							try {
+								conexao.close();
+							} catch (Exception e2) {
+							}
+						}
+					}
+					
+				}
+			});
 			menRelSer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.ALT_MASK));
 		}
 		return menRelSer;
@@ -292,5 +328,37 @@ public class TelaPrincipal extends JFrame {
 			lblData.setFont(new Font("Tahoma", Font.BOLD, 18));
 		}
 		return lblData;
+	}
+	private JMenuItem getMenRelCli() {
+		if (menRelCli == null) {
+			menRelCli = new JMenuItem("Clientes");
+			//gerando relatorio clientes
+			menRelCli.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int confirma = JOptionPane.showConfirmDialog(null,"Confirma a impressão desse relatorio","Atenção",JOptionPane.YES_NO_OPTION);
+					if(confirma == JOptionPane.YES_OPTION) {
+						//imprimindo relatorio com o framework JasperReport		
+						conexao = ModuloConexao.conector();
+						try {						
+							//Usando a classe JasperPrint para preparar impressao de um relatorio
+							JasperPrint print = JasperFillManager.fillReport("C:/Reports/clientes.jasper", null,conexao);
+							//aqui exibe relatorio atraves da classe JasperViewer
+							JasperViewer.viewReport(print,false);
+							
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(null, e);
+						}finally {
+							try {
+								conexao.close();
+							} catch (Exception e2) {
+							}
+						}
+					}
+					
+				}
+			});
+			menRelCli.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.ALT_MASK));
+		}
+		return menRelCli;
 	}
 }

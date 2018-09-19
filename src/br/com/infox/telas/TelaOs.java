@@ -3,39 +3,47 @@ package br.com.infox.telas;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.sql.*;
-import br.com.infox.dal.*;
-import net.proteanit.sql.DbUtils;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+
+import br.com.infox.dal.ModuloConexao;
+import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class TelaOs extends JInternalFrame {
 
@@ -162,7 +170,7 @@ public class TelaOs extends JInternalFrame {
 		btnOsAlterar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		JButton btnOsExcluir = new JButton("");
-		//chamando metodo para excluir OS
+		// chamando metodo para excluir OS
 		btnOsExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				excluirOs();
@@ -176,6 +184,12 @@ public class TelaOs extends JInternalFrame {
 		btnOsExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		JButton btnOsImprimir = new JButton("");
+		//chamando metodo imprimir os;
+		btnOsImprimir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				imprimirOs();
+			}
+		});
 		btnOsImprimir.setToolTipText("Imprimir OS");
 		btnOsImprimir.setMinimumSize(new Dimension(50, 50));
 		btnOsImprimir.setMaximumSize(new Dimension(50, 50));
@@ -659,10 +673,10 @@ public class TelaOs extends JInternalFrame {
 				txtOsTec.setText(rs.getString(8));
 				txtOsValor.setText(rs.getString(9));
 				txtCliID.setText(rs.getString(10));
-
+				
 				btnOsAdicionar.setEnabled(false);
 				txtCliPesquisar.setEnabled(false);
-				tblClientes.setVisible(false);
+				tblClientes.setEnabled(false);
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Os não encontrada");
@@ -673,8 +687,10 @@ public class TelaOs extends JInternalFrame {
 		} catch (SQLException e2) {
 			JOptionPane.showMessageDialog(null, e2);
 		} finally {
+
 			try {
 				conexao.close();
+
 			} catch (Exception e) {
 			}
 		}
@@ -714,13 +730,15 @@ public class TelaOs extends JInternalFrame {
 					txtOsValor.setText(null);
 
 					btnOsAdicionar.setEnabled(true);
+					txtCliPesquisar.setEnabled(true);
 					tblClientes.setEnabled(true);
-					txtCliPesquisar.setEditable(true);
+
 				}
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e);
 		} finally {
+
 			try {
 				conexao.close();
 			} catch (Exception e2) {
@@ -753,14 +771,41 @@ public class TelaOs extends JInternalFrame {
 					txtOsValor.setText(null);
 
 					btnOsAdicionar.setEnabled(true);
+					txtCliPesquisar.setEnabled(true);
 					tblClientes.setEnabled(true);
-					txtCliPesquisar.setEditable(true);
+					
 
 				}
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, e);
 			}
+		}	
+	}
+	//metodo para imprimir OS
+	
+	private void imprimirOs() {
+		int confirma = JOptionPane.showConfirmDialog(null,"Confirma a impressão desssa Ordem de Serviço","Atenção",JOptionPane.YES_NO_OPTION);
+		if(confirma == JOptionPane.YES_OPTION) {
+			//imprimindo uma os com o framework JasperReport		
+			conexao = ModuloConexao.conector();
+			try {						
+				//usando a classe HashMap para criar um filtro
+				HashMap filtro = new HashMap();
+				filtro.put("os", Integer.parseInt(txtOs.getText()));
+				
+				//Usando a classe JasperPrint para preparar impressao de um relatorio
+				JasperPrint print = JasperFillManager.fillReport("C:/Reports/os.jasper", filtro ,conexao);
+				//aqui exibe relatorio atraves da classe JasperViewer
+				JasperViewer.viewReport(print,false);
+				
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e);
+			}finally {
+				try {
+					conexao.close();
+				} catch (Exception e2) {
+				}
+			}
 		}
-
 	}
 }
